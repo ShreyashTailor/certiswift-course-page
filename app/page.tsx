@@ -19,7 +19,7 @@ export default function Home() {
     {
       name: "Vansh",
       role: "Founder",
-      image: "https://framerusercontent.com/images/o5Wt0Pls0owOTeydWPSDX1gWauc.png?scale-down-to=512&width=7219&height=7306",
+      image: "https://i.ibb.co/ccC8vdMV/Whats-App-Image-2025-10-12-at-19-08-34-06546f42.jpg?scale-down-to=512&width=7219&height=7306",
       description: "Visionary leader driving Certiswift&apos;s mission to make quality education accessible to everyone worldwide."
     },
     {
