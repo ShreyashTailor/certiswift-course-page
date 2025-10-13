@@ -56,6 +56,11 @@ export interface Course {
   difficulty?: 'Beginner' | 'Intermediate' | 'Advanced'
   duration?: string
   category?: string
+  subcategory?: string
+  platform?: string
+  skill_level?: string
+  price_range?: string
+  custom_amount?: string
 }
 
 export interface Admin {

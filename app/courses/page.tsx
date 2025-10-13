@@ -10,7 +10,6 @@ import { Progress } from "@/components/ui/progress"
 import { ExternalLink, Search, Settings, Plus } from "lucide-react"
 import { toast } from "sonner"
 import Link from "next/link"
-import AdminSection from "@/components/admin-section"
 import { getCourses, Course } from "@/lib/supabase"
 
 export default function CoursesPage() {
@@ -18,7 +17,6 @@ export default function CoursesPage() {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [typeFilter, setTypeFilter] = useState<"all" | "FREE" | "PAID">("all")
-  const [showAdmin, setShowAdmin] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loadingProgress, setLoadingProgress] = useState(0)
 
@@ -74,11 +72,6 @@ export default function CoursesPage() {
     setFilteredCourses(filtered)
   }, [courses, searchTerm, typeFilter])
 
-  const handleCoursesUpdate = (updatedCourses: Course[]) => {
-    setCourses(updatedCourses)
-    // Refresh from database instead of localStorage
-    loadCoursesFromDatabase()
-  }
 
   if (isLoading) {
     return (
@@ -121,36 +114,56 @@ export default function CoursesPage() {
       </div>
 
       {/* Search and Filter Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-          <Input
-            placeholder="Search courses, companies, or topics..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
+      <div className="space-y-4 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Input
+              placeholder="Search courses, authors, or topics..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          
+          <Select value={typeFilter} onValueChange={(value: "all" | "FREE" | "PAID") => setTypeFilter(value)}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Filter by type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="FREE">Free Only</SelectItem>
+              <SelectItem value="PAID">Paid Only</SelectItem>
+            </SelectContent>
+          </Select>
+
+
+          <Button 
+            onClick={() => window.location.href = '/admin'}
+            variant="outline"
+            className="flex items-center gap-2 hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-md"
+          >
+            <Settings className="w-4 h-4" />
+            Admin
+          </Button>
         </div>
         
-        <Select value={typeFilter} onValueChange={(value: "all" | "FREE" | "PAID") => setTypeFilter(value)}>
-          <SelectTrigger className="w-full sm:w-[180px]">
-            <SelectValue placeholder="Filter by type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Courses</SelectItem>
-            <SelectItem value="FREE">Free Only</SelectItem>
-            <SelectItem value="PAID">Paid Only</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Button 
-          onClick={() => setShowAdmin(true)}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <Settings className="w-4 h-4" />
-          Admin
-        </Button>
+        {/* Clear Filters */}
+        {(searchTerm || typeFilter !== "all") && (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchTerm("")
+                setTypeFilter("all")
+              }}
+              className="text-muted-foreground hover:scale-105 active:scale-95 transition-all duration-200 hover:bg-muted/50"
+            >
+              Clear all filters
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Results Summary */}
@@ -177,8 +190,8 @@ export default function CoursesPage() {
             </p>
             {(!searchTerm && typeFilter === "all") && (
               <Button 
-                onClick={() => setShowAdmin(true)}
-                className="mt-4"
+                onClick={() => window.location.href = '/admin'}
+                className="mt-4 hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-lg"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add First Course
@@ -189,41 +202,46 @@ export default function CoursesPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredCourses.map((course) => (
-            <Link key={course.id} href={`/courses/${course.id}`}>
-              <Card className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-xl cursor-pointer">
-                {/* Course Image */}
+            <Card key={course.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-xl">
+              {/* Course Image - Clickable to course detail page */}
+              <Link href={`/course/${course.id}`}>
                 {course.image_url && (
-                <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={course.image_url} 
-                    alt={course.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      // Fallback to gradient background if image fails to load
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <div className={`inline-flex items-center rounded-lg px-3 py-1 text-xs font-medium ${
-                      course.type === "FREE" 
-                        ? "bg-green-100/90 text-green-800" 
-                        : "bg-primary/90 text-primary-foreground"
-                    }`}>
-                      {course.type}
+                  <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 relative overflow-hidden rounded-t-lg cursor-pointer">
+                    <img 
+                      src={course.image_url} 
+                      alt={course.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent" />
+                    <div className="absolute bottom-4 left-4">
+                      <Badge 
+                        variant={course.type === "FREE" ? "secondary" : "default"}
+                        className={`${
+                          course.type === "FREE" 
+                            ? "bg-green-100/90 text-green-800" 
+                            : "bg-primary/90 text-primary-foreground"
+                        }`}
+                      >
+                        {course.type}
+                      </Badge>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </Link>
               
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1 flex-1 min-w-0">
-                    <CardTitle className="text-lg leading-tight group-hover:text-primary transition-colors truncate">
-                      {course.title}
-                    </CardTitle>
+                    <Link href={`/course/${course.id}`} className="hover:text-primary transition-colors">
+                      <CardTitle className="text-lg leading-tight group-hover:text-primary transition-colors cursor-pointer">
+                        {course.title}
+                      </CardTitle>
+                    </Link>
                     <CardDescription className="font-medium text-primary">
-                      {course.provider}
+                      by {course.provider}
                     </CardDescription>
                   </div>
                   {!course.image_url && (
@@ -249,7 +267,7 @@ export default function CoursesPage() {
               
               <CardFooter className="pt-0">
                 <Button 
-                  className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                  className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg"
                   variant="outline"
                   asChild
                 >
@@ -265,18 +283,10 @@ export default function CoursesPage() {
                 </Button>
               </CardFooter>
             </Card>
-            </Link>
           ))}
         </div>
       )}
 
-      {/* Admin Section */}
-      <AdminSection 
-        isOpen={showAdmin}
-        onClose={() => setShowAdmin(false)}
-        courses={courses}
-        onCoursesUpdate={handleCoursesUpdate}
-      />
     </div>
   )
 }

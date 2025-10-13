@@ -101,7 +101,7 @@ export default function CourseRatingComponent({ courseId, courseName }: CourseRa
             key={star}
             variant="ghost"
             size="sm"
-            className="p-0 h-auto"
+            className="p-0 h-auto hover:scale-110 active:scale-95 transition-all duration-200"
             onClick={() => setNewRating(star)}
           >
             <Star
@@ -134,7 +134,7 @@ export default function CourseRatingComponent({ courseId, courseName }: CourseRa
             </CardDescription>
           </div>
           {!showAddReview && (
-            <Button onClick={() => setShowAddReview(true)} size="sm">
+            <Button onClick={() => setShowAddReview(true)} size="sm" className="hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-md">
               Write Review
             </Button>
           )}
@@ -190,6 +190,7 @@ export default function CourseRatingComponent({ courseId, courseName }: CourseRa
                 <Button 
                   onClick={handleSubmitRating} 
                   disabled={loading || newRating === 0 || !userName.trim()}
+                  className="hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-lg"
                 >
                   {loading ? "Submitting..." : "Submit Review"}
                 </Button>
@@ -201,6 +202,7 @@ export default function CourseRatingComponent({ courseId, courseName }: CourseRa
                     setNewReview("")
                     setUserName("")
                   }}
+                  className="hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-md"
                 >
                   Cancel
                 </Button>

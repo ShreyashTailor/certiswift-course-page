@@ -138,13 +138,13 @@ export default function Home() {
             </div>
             
             <div className="flex flex-col gap-4 min-[400px]:flex-row justify-center animate-fade-in-up delay-1500">
-              <Button asChild size="lg" className="h-11 px-8 relative group overflow-hidden">
+              <Button asChild size="lg" className="h-11 px-8 relative group overflow-hidden hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-lg">
                 <Link href="/courses">
                   <span className="relative z-10">Get Started</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="h-11 px-8 relative group">
+              <Button variant="outline" size="lg" className="h-11 px-8 relative group hover:scale-105 active:scale-95 transition-all duration-200 hover:shadow-md">
                 <span className="relative z-10">View Courses</span>
               </Button>
             </div>
