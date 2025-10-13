@@ -97,22 +97,23 @@ export default function AdminPage() {
         subcategory: course.subcategory || "",
         platform: course.platform || "",
         skill_level: course.skill_level || "",
-        price_range: course.price_range || ""
+        price_range: course.price_range || "",
+        custom_amount: course.custom_amount ?? ""
       })
       setImagePreview(course.image_url || "")
     } else {
       setFormData({
-  title: course.title,
-  type: course.type,
-  provider: course.provider,
-  description: course.description,
-  course_url: course.course_url,
-  category: course.category,
-  subcategory: course.subcategory,
-  platform: course.platform,
-  skill_level: course.skill_level,
-  price_range: course.price_range,
-  custom_amount: course.custom_amount ?? "" // default
+        title: "",
+        type: "FREE",
+        provider: "",
+        description: "",
+        course_url: "",
+        category: "",
+        subcategory: "",
+        platform: "",
+        skill_level: "",
+        price_range: "",
+        custom_amount: ""
       })
       setImagePreview("")
     }
