@@ -3,7 +3,7 @@ import { updateCourse, deleteCourse } from '@/lib/supabase'
 
 export async function PUT(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }  // context with async params
+  context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
   try {
