@@ -3,8 +3,9 @@ import { getCourses, updateCourse, deleteCourse } from '@/lib/supabase'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params; 
   try {
     const courses = await getCourses()
     const course = courses.find(c => c.id === parseInt(params.id))
@@ -22,8 +23,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params; 
   try {
     const courseData = await request.json()
     const courseId = parseInt(params.id)
@@ -43,8 +45,9 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params; 
   try {
     const courseId = parseInt(params.id)
     const success = await deleteCourse(courseId)
