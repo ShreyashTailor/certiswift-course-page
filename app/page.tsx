@@ -19,7 +19,7 @@ export default function Home() {
     {
       name: "Vansh",
       role: "Founder",
-      image: "https://i.ibb.co/ccC8vdMV/Whats-App-Image-2025-10-12-at-19-08-34-06546f42.jpg?scale-down-to=512&width=7219&height=7306",
+      image: "https://framerusercontent.com/images/o5Wt0Pls0owOTeydWPSDX1gWauc.png?scale-down-to=512&width=7219&height=7306",
       description: "Visionary leader driving Certiswift&apos;s mission to make quality education accessible to everyone worldwide."
     },
     {
@@ -29,7 +29,7 @@ export default function Home() {
       description: "Strategic innovator focused on building partnerships and expanding our reach in the education technology space."
     },
     {
-      name: "Garv(Shubham)",
+      name: "Shubham",
       role: "CEO", 
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
       description: "Experienced executive leading operational excellence and driving sustainable growth for the platform."
