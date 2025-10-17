@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { updateCourse, deleteCourse } from '@/lib/supabase'
 
-export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function PUT(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }  // context with async params
+) {
   const { id } = await context.params;
   try {
     const courseData = await request.json()
