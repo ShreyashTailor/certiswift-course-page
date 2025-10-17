@@ -85,7 +85,7 @@ export default function RootLayout({
               <div className="flex h-14 items-center justify-between">
                 <Link href="/" className="flex items-center space-x-2">
                   <img 
-                    src="https://i.ibb.co/0yhZd3Yd/Purple-minimalist-Tech-Company-Logo-20250908-094048-0000.png" 
+                    src="https://i.ibb.co/4Rw4VxJf/Whats-App-Image-2025-10-12-at-19-10-41-4c008bfd.jpg" 
                     alt="Certiswift Logo" 
                     className="w-8 h-8 object-contain"
                   />
