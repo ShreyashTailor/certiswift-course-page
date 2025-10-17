@@ -93,7 +93,8 @@ export default function AdminPage() {
         subcategory: course.subcategory || "",
         platform: course.platform || "",
         skill_level: course.skill_level || "",
-        price_range: course.price_range || ""
+        price_range: course.price_range || "",
+        custom_amount: course.custom_amount ?? ""
       })
       setImagePreview(course.image_url || "")
     } else {
