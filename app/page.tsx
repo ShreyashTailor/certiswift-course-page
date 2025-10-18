@@ -31,7 +31,7 @@ export default function Home() {
     {
       name: "Shubham",
       role: "CEO", 
-      image: "https://i.ibb.co/20tPBVjF/Whats-App-Image-2025-10-12-at-18-53-24-7dfea4ab.jpg?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
+      image: "https://i.ibb.co/zv36NBc/Whats-App-Image-2025-10-18-at-08-04-15-ba8e7755.jpg?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
       description: "Experienced executive leading operational excellence and driving sustainable growth for the platform."
     },
     {
